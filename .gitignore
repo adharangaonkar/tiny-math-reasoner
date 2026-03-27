@@ -21,6 +21,11 @@ env/
 # Data — don't commit raw/processed datasets
 data/raw/
 data/processed/
+# Data
+data/
+**/data/raw/
+**/data/processed/
+**/*.arrow
 
 # Model weights — too large for git
 checkpoints/
