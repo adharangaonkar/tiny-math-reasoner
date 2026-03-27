@@ -6,10 +6,9 @@ CoT distillation of DeepSeek-R1-14B into Qwen2.5-0.5B for mathematical reasoning
 
 This project distills chain-of-thought reasoning from a large teacher model (DeepSeek-R1-14B) into a small student model (Qwen2.5-0.5B) using supervised fine-tuning on verified math traces.
 
-The goal is to improve mathematical reasoning in a 500M parameter model using a dataset of ~577 high-quality CoT traces generated from the MATH dataset (Levels 1–3).
+The goal is to improve mathematical reasoning in a 500M parameter model using a dataset of 577 high-quality CoT traces generated from the MATH dataset (Levels 1–3).
 
 ## Pipeline
-
 ```
 MATH Dataset (Levels 1–3)
         ↓
@@ -21,7 +20,7 @@ Dataset Formatting      — Chat-formatted HF Dataset
         ↓
 Fine-tuning             — Qwen2.5-0.5B via TRL SFTTrainer
         ↓
-Evaluation              — MATH test split + GSM8K (base vs fine-tuned)
+Evaluation              — MATH Algebra test split + GSM8K
 ```
 
 ## Models
@@ -37,7 +36,8 @@ Evaluation              — MATH test split + GSM8K (base vs fine-tuned)
 - Source: `lighteval/MATH` — Levels 1, 2, and 3
 - Problems: 910 total processed
 - Clean traces kept: 577 (63.4% keep rate)
-- Eval: `lighteval/MATH` test split + GSM8K
+- Trace generation time: ~127 minutes
+- Average tokens/sec: 85.9
 
 ## Notebooks
 
@@ -56,7 +56,6 @@ Evaluation              — MATH test split + GSM8K (base vs fine-tuned)
 - OS: Ubuntu 24.04
 
 ## Setup
-
 ```bash
 git clone https://github.com/yourusername/tiny-math-reasoner
 cd tiny-math-reasoner
@@ -77,12 +76,19 @@ See `requirements.txt`. Key dependencies:
 
 ## Results
 
-*To be updated after training and evaluation.*
-
-| Model | MATH (test) | GSM8K |
+| Model | MATH Algebra (L1-3) | GSM8K (100 samples) |
 |---|---|---|
 | Qwen2.5-0.5B (base) | TBD | TBD |
-| Qwen2.5-0.5B (fine-tuned) | TBD | TBD |
+| Qwen2.5-0.5B (fine-tuned) | 44.56% | 39.00% |
+
+*Base model results to be added after `05_comparison.ipynb`.*
+
+## Key Findings
+
+- 577 clean traces kept from 910 problems (63.4% keep rate)
+- Fine-tuned model achieves **44.56%** on MATH Algebra (Levels 1–3)
+- **39% transfer accuracy on GSM8K** despite never training on it
+- CoT reasoning style generalises beyond the training distribution
 
 ## License
 
